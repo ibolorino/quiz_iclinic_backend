@@ -13,5 +13,5 @@ class Answer(models.Model):
     correct = models.BooleanField("Correct Answer")
 
     def __str__(self):
-        return str(self.question.pk) + self.answer
+        return self.answer
     

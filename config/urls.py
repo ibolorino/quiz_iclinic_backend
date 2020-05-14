@@ -17,6 +17,7 @@ urlpatterns = [
     path("users/", include("quiz_iclinic_backend.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("api/", include("quiz.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS
