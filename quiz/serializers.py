@@ -4,7 +4,7 @@ from .models import Question, Answer
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['question', 'answers']
+        fields = "__all__"
 
 
 class AnswerSerializer(serializers.ModelSerializer):
