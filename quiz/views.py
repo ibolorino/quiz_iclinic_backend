@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from .models import Question, Answer
 from .serializers import QuestionSerializer, AnswerSerializer
+from .utils import check_user
 from rest_framework import generics
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -24,16 +25,21 @@ class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
 
-@csrf_exempt
-@api_view(['GET'])
-def start_quiz(request):
-    if request.method == 'GET':
+
+@api_view(['POST'])
+def start_quizz(request):
+    if request.method == 'POST':
         data = JSONParser().parse(request)
         questions_number = data['questions_number']
-        username = data['username']
         questions = Question().start_quiz(questions_number)
         serializer = QuestionSerializer(questions, many=True)
-        if questions_number < 1:
-            return Response("error")
         return Response(serializer.data)
+
+@api_view(['POST'])
+def login(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        username = data['username']
+        user = check_user(username)
+        return Response(user)
 

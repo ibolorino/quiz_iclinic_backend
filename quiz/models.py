@@ -44,11 +44,18 @@ class Answer(models.Model):
 class QuizUser(models.Model):
     name = models.CharField("Name", max_length=50)
     has_answered = models.BooleanField("Has answered", default=False)
-    questions_answered = models.IntegerField("Questions Answered")
-    right_questions = models.IntegerField("Right Questions")
+    questions_answered = models.IntegerField("Questions Answered", default=0)
+    right_questions = models.IntegerField("Right Questions", default=0)
 
     def __str__(self):
         return self.name
 
-    def user_exists(self, pk):
-        return len(QuizUser.objects.filter(pk=pk)) > 0
+
+    def user_exists(self, name):
+        user = QuizUser.objects.filter(name=name)
+        if len(user) > 0:
+            return user.values()[0]
+        return False
+
+    def user_has_answered(self, pk):
+        return QuizUser.objects.get(pk=pk).has_answered

@@ -13,3 +13,10 @@ def count_correct_answers(quiz):
         if its_correct_answer(question['answer'], question['question']):
             correct_answers += 1
     return correct_answers
+
+def check_user(username):
+    user = QuizUser().user_exists(username)
+    if not user:
+        QuizUser(name=username).save()
+        user = QuizUser().user_exists(username)
+    return user
