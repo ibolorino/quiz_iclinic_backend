@@ -9,6 +9,7 @@ urlpatterns = [
     path("answers/", views.AnswerList.as_view()),
     path("answers/<int:pk>", views.AnswerDetail.as_view()),
     path("start_quizz", start_quizz),
+    path("submit_quizz", submit_quizz),
     path("login", login),
 ]
 

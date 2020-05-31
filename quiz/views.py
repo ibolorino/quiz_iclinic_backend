@@ -1,7 +1,7 @@
 from rest_framework.response import Response
-from .models import Question, Answer
+from .models import Question, Answer, QuizUser
 from .serializers import QuestionSerializer, AnswerSerializer
-from .utils import check_user
+from .utils import check_user, count_correct_answers
 from rest_framework import generics
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -43,3 +43,18 @@ def login(request):
         user = check_user(username)
         return Response(user)
 
+
+@api_view(['POST'])
+def submit_quizz(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        total = len(data['result'])
+        correct = count_correct_answers(data['result'])
+        user = QuizUser.objects.filter(name=data['username'])
+        user.update(has_answered=True, questions_answered=total, right_questions=correct)
+        result = {
+            'correct': correct,
+            'total': total,
+        }
+
+        return Response(result)

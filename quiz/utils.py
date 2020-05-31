@@ -7,9 +7,9 @@ def its_correct_answer(answer_id, question_id):
             return True
     return False
 
-def count_correct_answers(quiz):
+def count_correct_answers(quizz):
     correct_answers = 0
-    for question in quiz['quiz']:
+    for question in quizz:
         if its_correct_answer(question['answer'], question['question']):
             correct_answers += 1
     return correct_answers
